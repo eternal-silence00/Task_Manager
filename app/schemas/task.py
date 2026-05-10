@@ -15,8 +15,8 @@ class TaskResponse(BaseModel):
         from_attributes = True
         
 class TaskPatch(BaseModel):
-    title: Optional[str]
-    description: Optional[str]
-    status: Optional[str]
-    is_active: Optional[bool]
+    title: Optional[str] = None
+    description: Optional[str] = None
+    status: Optional[str] = None
+    is_active: Optional[bool] = None
     
