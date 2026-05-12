@@ -31,7 +31,7 @@ async def get_task_by_id(
         raise HTTPException(status_code=403, detail="Not allowed")
     return result
 
-@router.post('/task')
+@router.post('/task', status_code=201)
 async def create_task(
     data: TaskCreate,
     user: User = Depends(get_current_user),
