@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from typing import Optional
 
 class TaskCreate(BaseModel):
@@ -11,8 +11,7 @@ class TaskResponse(BaseModel):
     is_active: bool
     status: str
     
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
         
 class TaskPatch(BaseModel):
     title: Optional[str] = None
