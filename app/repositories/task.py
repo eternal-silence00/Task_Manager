@@ -15,9 +15,7 @@ class TaskRepo:
         result = await self.session.execute(select(Task).where(Task.user_id == user_id).limit(limit).offset(offset))
         return result.scalars().all()
     
-    async def patch_tasks(self, task_id, data: TaskPatch):
-        result = await self.session.execute(select(Task).where(Task.id == task_id))
-        task = result.scalar_one_or_none()
+    async def patch_tasks(self, task: Task, data: TaskPatch):
         updates = data.model_dump(exclude_unset=True)
         for key, value in updates.items():
             setattr(task, key, value)

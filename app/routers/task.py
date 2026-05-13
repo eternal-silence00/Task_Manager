@@ -73,14 +73,15 @@ async def patch_task(
     user: User = Depends(get_current_user)
 ):
     repo = TaskRepo(session)
+    task = await repo.get_by_id(task_id)
+    if not task:
+        raise HTTPException(status_code=404, detail="Task not found")
+    if task.user_id != user.id:
+        raise HTTPException(status_code=403, detail="Not allowed")
     result = await repo.patch_tasks(
-        task_id=task_id,
+        task=task,
         data=data
         )
-    if not result:
-        raise HTTPException(status_code=404, detail="Task not found")
-    if result.user_id != user.id:
-        raise HTTPException(status_code=403, detail="Not allowed")
     keys = await redis_client.keys(f"tasks:{user.id}:*")
     if keys:
         await redis_client.delete(*keys)
