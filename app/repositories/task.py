@@ -11,8 +11,8 @@ class TaskRepo:
         result = await self.session.execute(select(Task).where(Task.id == task_id))
         return result.scalar_one_or_none()
     
-    async def get_all_users_tasks(self, user_id: int):
-        result = await self.session.execute(select(Task).where(Task.user_id == user_id))
+    async def get_all_users_tasks(self, user_id: int, limit: int = 10, offset: int = 0):
+        result = await self.session.execute(select(Task).where(Task.user_id == user_id).limit(limit).offset(offset))
         return result.scalars().all()
     
     async def patch_tasks(self, task_id, data: TaskPatch):
